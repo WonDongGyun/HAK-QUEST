@@ -22,7 +22,8 @@ import { typeormConfig } from './shared/util/typeOrmConfig';
 
         // If we are in development, we want to generate the schema.graphql
         if (process.env.NODE_ENV !== 'production' || process.env.IS_OFFLINE) {
-          schemaModuleOptions.autoSchemaFile = 'schema.graphql';
+          // schemaModuleOptions.autoSchemaFile = 'schema.graphql';
+          schemaModuleOptions.typePaths = ['./**/*.graphql'];
           schemaModuleOptions.debug = true;
         } else {
           // For production, the file should be generated

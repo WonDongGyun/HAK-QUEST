@@ -1,0 +1,16 @@
+type Mutation {
+  createUser(createUserInput: CreateUserDto!): User!
+}
+
+input CreateUserDto {
+  name: String!
+}
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  name: String!
+  boards: [Board!]!
+}
