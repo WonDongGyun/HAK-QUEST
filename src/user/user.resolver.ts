@@ -1,12 +1,9 @@
-import { UseFilters } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ExceptionHandler } from 'src/global/ExceptionHandler';
 import { CreateUserDto } from './dto/CreateUserDto.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
 
 @Resolver()
-@UseFilters(ExceptionHandler)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
