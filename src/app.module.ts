@@ -36,7 +36,7 @@ import { typeormConfig } from './shared/util/typeOrmConfig';
         };
 
         schemaModuleOptions.formatError = (error) => {
-          console.log(error.message);
+          console.log('error.message ==>>>' + error.message);
           return error;
         };
 
@@ -44,6 +44,7 @@ import { typeormConfig } from './shared/util/typeOrmConfig';
           context: ({ req }) => ({ req }),
           playground: true, // Allow playground in production
           introspection: true, // Allow introspection in production
+          debug: false,
           ...schemaModuleOptions,
         };
       },
