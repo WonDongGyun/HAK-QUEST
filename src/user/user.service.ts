@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/CreateUserDto.dto';
-import { DeleteUserDto } from './dto/DeleteUserDto.dto';
-import { FindUserDto } from './dto/FindUserDto.dto';
 import { NotFoundUserException } from './exception/NotFoundUserException';
 import { User } from './user.model';
 
@@ -22,31 +20,29 @@ export class UserService {
   }
 
   // 사용자 찾기
-  async findUser(args: FindUserDto): Promise<User> {
-    const findUser = await this.usersRepository.findOne({
-      where: {
-        id: args.id,
-      },
-    });
+  async findUser(args: number | string): Promise<User> {
+    const findUser =
+      typeof args === 'number'
+        ? await this.usersRepository.findOne({
+            where: {
+              id: args,
+            },
+          })
+        : await this.usersRepository.findOne({
+            where: {
+              name: args,
+            },
+          });
 
     if (!findUser) {
-      throw new NotFoundUserException(args.id);
+      throw new NotFoundUserException(args);
     }
     return findUser;
   }
 
   // 사용자 삭제
-  async deleteUser(args: DeleteUserDto): Promise<User> {
-    const findUser = await this.usersRepository.findOne({
-      where: {
-        id: args.id,
-      },
-    });
-
-    if (!findUser) {
-      throw new NotFoundUserException(args.id);
-    }
-
+  async deleteUser(args: number): Promise<User> {
+    const findUser = await this.findUser(args);
     await this.usersRepository.softDelete({
       id: findUser.id,
     });

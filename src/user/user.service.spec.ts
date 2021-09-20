@@ -62,9 +62,7 @@ describe('UserService', () => {
   });
 
   describe('사용자 찾기', () => {
-    const findOneUserDto = {
-      id: 2,
-    };
+    const id = 2;
 
     const findOneArgs = {
       where: {
@@ -75,26 +73,24 @@ describe('UserService', () => {
     it('사용자 찾기 실패', async () => {
       userRepository.findOne.mockResolvedValue(null);
       try {
-        const result = await userService.findUser(findOneUserDto);
+        const result = await userService.findUser(id);
       } catch (err) {
-        expect(err).toEqual(new NotFoundUserException(findOneUserDto.id));
+        expect(err).toEqual(new NotFoundUserException(id));
       }
     });
 
     it('사용자 찾기 완료', async () => {
-      userRepository.findOne.mockResolvedValue(findOneUserDto);
-      const result = await userService.findUser(findOneUserDto);
+      userRepository.findOne.mockResolvedValue(id);
+      const result = await userService.findUser(id);
 
       expect(userRepository.findOne).toHaveBeenCalledTimes(1);
       expect(userRepository.findOne).toHaveBeenCalledWith(findOneArgs);
-      expect(result).toEqual(findOneUserDto);
+      expect(result).toEqual(id);
     });
   });
 
   describe('사용자 삭제', () => {
-    const deleteUserDto = {
-      id: 2,
-    };
+    const id = 2;
     const findOneUser = {
       id: 2,
     };
@@ -106,7 +102,7 @@ describe('UserService', () => {
       userRepository.findOne.mockResolvedValue(findOneUser);
       userRepository.softDelete.mockResolvedValue(deleteUser);
 
-      const result = await userService.deleteUser(deleteUserDto);
+      const result = await userService.deleteUser(id);
 
       expect(userRepository.findOne).toHaveBeenCalledTimes(2);
 
@@ -118,9 +114,9 @@ describe('UserService', () => {
     it('삭제 대상 찾기 실패', async () => {
       userRepository.findOne.mockResolvedValue(null);
       try {
-        const result = await userService.deleteUser(deleteUserDto);
+        const result = await userService.deleteUser(id);
       } catch (err) {
-        expect(err).toEqual(new NotFoundUserException(deleteUserDto.id));
+        expect(err).toEqual(new NotFoundUserException(id));
       }
     });
   });

@@ -1,9 +1,7 @@
 import { UseFilters } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ExceptionHandler } from 'src/global/ExceptionHandler';
 import { CreateUserDto } from './dto/CreateUserDto.dto';
-import { DeleteUserDto } from './dto/DeleteUserDto.dto';
-import { FindUserDto } from './dto/FindUserDto.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
 
@@ -21,21 +19,18 @@ export class UserResolver {
     return createUser;
   }
 
-  // 사용자 찾기
-  @Mutation(() => User)
-  async findUser(
-    @Args('findUserInput') findUserInput: FindUserDto,
-  ): Promise<User> {
-    const findUser = await this.userService.findUser(findUserInput);
-    return findUser;
-  }
-
   // 사용자 삭제
   @Mutation(() => User)
-  async deleteUser(
-    @Args('deleteUserInput') deleteUserInput: DeleteUserDto,
-  ): Promise<User> {
-    const deleteUser = await this.userService.deleteUser(deleteUserInput);
+  async deleteUser(@Args('id') id: number): Promise<User> {
+    const deleteUser = await this.userService.deleteUser(id);
     return deleteUser;
+  }
+
+  // 사용자 찾기
+  @Query(() => User)
+  async findUser(@Args('id') id: number): Promise<User> {
+    console.log(typeof id);
+    const findUser = await this.userService.findUser(id);
+    return findUser;
   }
 }

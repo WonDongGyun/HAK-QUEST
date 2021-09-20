@@ -1,19 +1,14 @@
 type Mutation {
   createUser(createUserInput: CreateUserDto!): User!
-  deleteUser(deleteUserInput: DeleteUserDto!): User!
-  findUser(findUserInput: FindUserDto!): User!
+  deleteUser(id: Int!): User!
+}
+
+type Query {
+  findUser(id: Int!): User!
 }
 
 input CreateUserDto {
   name: String!
-}
-
-input DeleteUserDto {
-  id: ID!
-}
-
-input FindUserDto {
-  id: ID!
 }
 
 type User {
