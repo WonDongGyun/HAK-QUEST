@@ -1,0 +1,38 @@
+type Mutation {
+  createBoard(createBoardInput: CreateBoardDto!): Board!
+  updateBoard(updateBoardInput: UpdateBoardDto!): Board!
+  deleteBoard(deleteBoardInput: DeleteBoardDto!): Board!
+}
+
+type Query {
+  findBoard(id: Int!): Board!
+  getBoards(userName: String!): [Board!]!
+}
+
+input CreateBoardDto {
+  userName: String!
+  title: String!
+  content: String!
+}
+
+input UpdateBoardDto {
+  boardId: Int!
+  userName: String!
+  title: String!
+  content: String!
+}
+
+input DeleteBoardDto {
+  boardId: Int!
+  userName: String!
+}
+
+type Board {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  title: String!
+  content: String!
+  author: User!
+}
